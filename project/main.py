@@ -3,15 +3,13 @@ from collections import defaultdict
 def caesar_cipher(clear_text, shift=13):
 	'''Encrypts the given clear text using the super 
 	simple caesar cipher. This is case insensetive
-	and doesn't encrpyt characters outside range A-Z
+	and strips characters outside range A-Z
 	'''
 	upper_text = clear_text.upper()
 	result = ""
 	for c in upper_text:
 		if c.isupper():
 			result += chr(((ord(c) + shift - 65) % 26) +  65)
-		else:
-			result += c
 	return result
 
 def letter_frequency_count(string):
