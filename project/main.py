@@ -22,6 +22,12 @@ def letter_frequency_count(string):
 			freq[c] += 1
 	return [(k, freq[k]) for k in sorted(freq, key=freq.get, reverse=True)]
 
+def caesar_cipher_decrypt(cipher_text):
+	'''Attempts to decrypt the given caesar cipher text using letter
+	frequency analysis.
+	'''
+	pass
+
 if __name__ == "__main__":
 	while True:
 		text = raw_input("Text to encrypt: ")

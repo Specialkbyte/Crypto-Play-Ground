@@ -32,6 +32,21 @@ class CaesarCipherEncrpytTest(TestCase):
 		cipher_text = caesar_cipher(clear_text, 29)
 		self.assertEqual(cipher_text, "KHOORZRUOG")
 
+	def test_encrypt_with_negative_shift(self):
+		'''Tests that the caesar cipher is implmented correctly if given a
+		negative shift value, i.e. we want to shift the characters X place
+		to the left.
+		'''
+		clear_text = "Hello world"
+		self.assertEqual(caesar_cipher(clear_text, -3), "EBIILTLOIA")
+
+	def test_encrpyt_with_large_negative_shift(self):
+		'''Tests that the if we give the caesar cipher function a shift
+		less than -26 we still get the expected result
+		'''
+		clear_text = "Hello World"
+		self.assertEqual(caesar_cipher(clear_text, -29), "EBIILTLOIA")
+
 
 class LetterFrequncyCounterTest(TestCase):
 
