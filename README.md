@@ -5,6 +5,7 @@ Project made for fun to test out how easy is it really to do letter frequency an
 
 ## Performance
 Using the simple single word dictionary containing over 220,000 words the program currently cracks correctly the first time depending on how much cipher text there is to work with. The longer the cleartext the better it works:
+
 | String Length | Accuracy |
 | ------------- | -------: |
 | 2 | 3.85% |
