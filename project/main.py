@@ -56,6 +56,9 @@ def measure_relative_unigram_entropy(clear_text, letter_frequencies):
     Kullback-Leibler divergence) of a string relative to the standard
     distribution of letters in the english language.
     '''
+    if len(clear_text) is 0:
+        return 0.0
+
     sum_ = 0.0
     for c in clear_text:
         if c.isupper():
@@ -67,8 +70,10 @@ def measure_relative_diagraph_entropy(clear_text, diagraph_frequencies):
     '''Uses known common diagraph (two character pairs) in the english 
     language to better predict the correct crack
     '''
-    length = len(clear_text)
     sum_ = 0.0
+    length = len(clear_text)
+    if length is 0:
+        return 0.0
 
     for i in range(0, length-2):
         try:

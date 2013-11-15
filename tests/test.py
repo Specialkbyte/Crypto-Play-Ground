@@ -69,6 +69,12 @@ class MeasureRelativeEntropyTest(TestCase):
 		result = measure_relative_unigram_entropy(clear_text, self.frequencies['letters'])
 		self.assertAlmostEqual(result, 2.0202, places=4)
 
+	def test_unigram_entropy_empty_string(self):
+		'''Simple bog standard test'''
+		clear_text = ""
+		result = measure_relative_unigram_entropy(clear_text, self.frequencies['letters'])
+		self.assertEqual(result, 0.0)
+
 class CrackingCaesarCipherTest(TestCase):
 
 	def test_crack_rot13(self):

@@ -4,12 +4,12 @@ from project import crack_caesar_cipher, caesar_cipher_encrypt
 
 class AccuracyStatistics(object):
 
-    def word_accuracy(self):
+    def word_accuracy(self, filename):
         '''Takes a list of words encrpyts them and then attempts to 
         break the encryption. Using single words as the corpus is 
         very small.
         '''
-        self._words = open('/usr/share/dict/words')
+        self._words = open('tests/' + filename)
 
         failures = []
         successes = []
@@ -26,8 +26,8 @@ class AccuracyStatistics(object):
         cPickle.dump(failures, open('failures.p', 'wb')) 
 
     def statistics(self):
-        '''Generates printable statistics on the words that were 
-        cracker successfully and words that aren't
+        '''Generates printable statistics on the strings that were 
+        cracker successfully and strings that aren't
         '''
         # build statistics from the previous tests
         successes = cPickle.load(open('successes.p', 'rb')) 
@@ -40,19 +40,19 @@ class AccuracyStatistics(object):
         print "Success Rate: %.2f%%" % success_rate
 
         # per success rate for each word length
-        print "Success rate per word length"
-        success_freq = self._frequency_word_length(successes)
-        failure_freq = self._frequency_word_length(failures)
+        print "Success rate per string length"
+        success_freq = self._frequency_string_length(successes)
+        failure_freq = self._frequency_string_length(failures)
 
-        for i in range(2, 24): 
-            success_rate = (success_freq[i] / float(success_freq[i]+failure_freq[i])) * 100
-            print "%d: %.2f%%" % (i, success_rate)
+        for i in range(2, 50): 
+            success_rate = (success_freq[i] / (float(success_freq[i]+failure_freq[i]) or 1.0)) * 100
+            print "%d: %.2f%% (%d/%d)" % (i, success_rate, success_freq[i], success_freq[i]+failure_freq[i])
 
-    def _frequency_word_length(self, words):
-        '''Gives the an aggregate list of how many words
-        have each word length for the list of words provided
+    def _frequency_string_length(self, strings):
+        '''Gives the an aggregate list of how many strings
+        have each character length for the list of strings provided
         '''
         freq = defaultdict(int)
-        for word in words:
-            freq[len(word)] += 1
+        for string in strings:
+            freq[len(string)] += 1
         return freq
