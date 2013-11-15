@@ -4,7 +4,9 @@ Caesar Cipher Cracker in Python
 Project made for fun to test out how easy is it really to do letter frequency analysis to break simple substitution ciphers like the Caesar Cipher, where the encryption is done by shifting every character left or right X places in the alphabet. My implemention of the Caesar Cipher removes all whitespace and puncuation.
 
 ## Performance
-Using the simple single word dictionary containing over 220,000 words the program currently cracks correctly the first time depending on how much cipher text there is to work with. The longer the cleartext the better it works:
+Using the simple single word dictionary containing over 220,000 words the program currently cracks correctly the first time depending on how much cipher text there is to work with. Across the current test sample it correctly cracks 67% of test cases.
+
+The longer the cleartext the better it works:
 
 | String Length | Accuracy |
 | ------------- | -------: |
