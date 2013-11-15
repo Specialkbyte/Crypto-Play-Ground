@@ -4,7 +4,11 @@ from collections import defaultdict
 
 frequencies = None
 
-def caesar_cipher(clear_text, shift=13):
+def rot13(clear_text):
+	'''ROT13 encryption - Caesar Cipher shifted by 13'''
+	return caesar_cipher_encrypt(clear_text, 13)
+
+def caesar_cipher_encrypt(clear_text, shift):
 	'''Encrypts the given clear text using the super 
 	simple caesar cipher. This is case insensetive
 	and strips characters outside range A-Z
@@ -14,6 +18,13 @@ def caesar_cipher(clear_text, shift=13):
 	for c in upper_text:
 		if c.isupper():
 			result += chr(((ord(c) + shift - 65) % 26) +  65)
+	return result
+
+def caesar_cipher_decrypt(cipher_text, shift):
+	'''Decrpyts the string given the correct decryption shift'''
+	result = ""
+	for c in cipher_text:
+		result += chr(((ord(c) - shift - 65) % 26) +  65)
 	return result
 
 def crack_caesar_cipher(cipher_text):
@@ -26,9 +37,9 @@ def crack_caesar_cipher(cipher_text):
 
 	# try all 26 possible shifts and calculate the relative entropy for each string
 	for shift in range(26):
-		possible_clear_text = caesar_cipher(cipher_text, shift)
+		possible_clear_text = caesar_cipher_decrypt(cipher_text, shift)
 		entropy = _measure_relative_entropy(possible_clear_text, frequency_data)
-		decryptions.append((26-shift, entropy, possible_clear_text))
+		decryptions.append((shift, entropy, possible_clear_text))
 
 	sorted_by_entropy = sorted(decryptions, key=lambda tup: tup[1], reverse=True)
 
@@ -58,4 +69,3 @@ def _get_frequency_data(filename):
 		frequencies = json.load(json_data)
 		json_data.close()
 	return frequencies
-	
