@@ -1,4 +1,8 @@
+import json
+import math
 from collections import defaultdict
+
+frequencies = None
 
 def caesar_cipher(clear_text, shift=13):
 	'''Encrypts the given clear text using the super 
@@ -12,25 +16,46 @@ def caesar_cipher(clear_text, shift=13):
 			result += chr(((ord(c) + shift - 65) % 26) +  65)
 	return result
 
-def letter_frequency_count(string):
-	'''Counts the frequency of each letter in the string
-	Returns: sorted list of tuples (count, character)
+def crack_caesar_cipher(cipher_text):
+	'''Attempts to decrypt the given caesar cipher text by generating all
+	26 possible shifts and then using letter frequency analysis distributions
+	to predict which of the possible 26 combinations was the correct decrpytion.
 	'''
-	freq = defaultdict(int)
-	for c in string.upper():
+	frequency_data = _get_frequency_data('project/frequencies.json')
+	decryptions = []
+
+	# try all 26 possible shifts and calculate the relative entropy for each string
+	for shift in range(26):
+		possible_clear_text = caesar_cipher(cipher_text, shift)
+		entropy = _measure_relative_entropy(possible_clear_text, frequency_data)
+		decryptions.append((26-shift, entropy, possible_clear_text))
+
+	sorted_by_entropy = sorted(decryptions, key=lambda tup: tup[1], reverse=True)
+
+	return sorted_by_entropy[0]
+
+def _measure_relative_entropy(clear_text, standard_frequency):
+	'''This function measures the relative entropy (sometimes called the
+	Kullback-Leibler divergence) of a string relative to the standard
+	distribution of letters in the english language.
+	'''
+	sum_ = 0
+	for c in clear_text:
 		if c.isupper():
-			freq[c] += 1
-	return [(k, freq[k]) for k in sorted(freq, key=freq.get, reverse=True)]
+			sum_ += math.log(standard_frequency['letters'][c])
 
-def caesar_cipher_decrypt(cipher_text):
-	'''Attempts to decrypt the given caesar cipher text using letter
-	frequency analysis.
+	return sum_ / math.log(2) / len(clear_text)
+
+def _get_frequency_data(filename):
+	'''Loads in the letter/diagram/etc. frequency data from
+	the JSON file
 	'''
-	pass
+	global frequencies
 
-if __name__ == "__main__":
-	while True:
-		text = raw_input("Text to encrypt: ")
-		if text == "quit":
-			break
-		print caesar_cipher(text)
+	if frequencies is None:
+		# get the frequencies data loaded in from the JSON file
+		json_data = open(filename)
+		frequencies = json.load(json_data)
+		json_data.close()
+	return frequencies
+	
