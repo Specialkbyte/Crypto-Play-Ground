@@ -2,9 +2,9 @@ import cPickle
 from collections import defaultdict
 from project import crack_caesar_cipher, caesar_cipher_encrypt
 
-class TestAccuracy(object):
+class AccuracyStatistics(object):
 
-    def test_word_accuracy(self):
+    def word_accuracy(self):
         '''Takes a list of words encrpyts them and then attempts to 
         break the encryption. Using single words as the corpus is 
         very small.
@@ -36,11 +36,10 @@ class TestAccuracy(object):
         num_sucs = len(successes)
         num_fails = len(failures)
         num_total = num_sucs + num_fails
-        print "Successes:", num_sucs
-        print "Failures:", num_fails
         success_rate = num_sucs/float(num_total)*100
         print "Success Rate: %.2f%%" % success_rate
 
+        # per success rate for each word length
         print "Success rate per word length"
         success_freq = self._frequency_word_length(successes)
         failure_freq = self._frequency_word_length(failures)
@@ -57,4 +56,3 @@ class TestAccuracy(object):
         for word in words:
             freq[len(word)] += 1
         return freq
-        

@@ -4,7 +4,7 @@ from project import rot13
 from project import caesar_cipher_encrypt
 from project import caesar_cipher_decrypt
 from project import crack_caesar_cipher
-from project.main import _measure_relative_entropy
+from project.main import measure_relative_unigram_entropy
 from project.main import _get_frequency_data
 
 class CaesarCipherEncrpytTest(TestCase):
@@ -63,10 +63,10 @@ class MeasureRelativeEntropyTest(TestCase):
 		'''Load in the letter frequency data from the JSON file'''
 		self.frequencies = _get_frequency_data('project/frequencies.json')
 
-	def test_measure(self):
+	def test_unigram_entropy(self):
 		'''Simple bog standard test'''
 		clear_text = "THIS IS SOME SAMPLE TEXT HERE."
-		result = _measure_relative_entropy(clear_text, self.frequencies)
+		result = measure_relative_unigram_entropy(clear_text, self.frequencies['letters'])
 		self.assertAlmostEqual(result, 2.0202, places=4)
 
 class CrackingCaesarCipherTest(TestCase):
@@ -86,8 +86,7 @@ class CrackingCaesarCipherTest(TestCase):
 	def test_crack_long_string(self):
 		clear_text = "Mr. Obama, seeking to address an outcry that has shaken public confidence in \
 		the new health law, told reporters at the White House that the changes should allow most people\
-		to retain their health care plans for a year despite having received letters saying they could no \
-		longer keep their insurance."
+		to retain."
 		shift, _, decryption = crack_caesar_cipher(caesar_cipher_encrypt(clear_text, 5))
 		self.assertEqual(shift, 5)
 		self.assertEqual(decryption, decrypted_text(clear_text))

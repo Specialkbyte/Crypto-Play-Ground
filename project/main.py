@@ -38,22 +38,44 @@ def crack_caesar_cipher(cipher_text):
     # try all 26 possible shifts and calculate the relative entropy for each string
     for shift in range(26):
         possible_clear_text = caesar_cipher_decrypt(cipher_text, shift)
-        entropy = _measure_relative_entropy(possible_clear_text, frequency_data)
+        entropy = measure_similarity(possible_clear_text, frequency_data)
         decryptions.append((shift, entropy, possible_clear_text))
 
     sorted_by_entropy = sorted(decryptions, key=lambda tup: tup[1], reverse=True)
 
     return sorted_by_entropy[0]
 
-def _measure_relative_entropy(clear_text, standard_frequency):
+def measure_similarity(clear_text, frequencies):
+    unigrams = measure_relative_unigram_entropy(clear_text, frequencies['letters'])
+    diagraphs = measure_relative_diagraph_entropy(clear_text, frequencies['diagraphs'])
+
+    return unigrams + diagraphs
+
+def measure_relative_unigram_entropy(clear_text, letter_frequencies):
     '''This function measures the relative entropy (sometimes called the
     Kullback-Leibler divergence) of a string relative to the standard
     distribution of letters in the english language.
     '''
-    sum_ = 0
+    sum_ = 0.0
     for c in clear_text:
         if c.isupper():
-            sum_ += math.log(standard_frequency['letters'][c])
+            sum_ += math.log(letter_frequencies[c])
+
+    return sum_ / math.log(2) / len(clear_text)
+
+def measure_relative_diagraph_entropy(clear_text, diagraph_frequencies):
+    '''Uses known common diagraph (two character pairs) in the english 
+    language to better predict the correct crack
+    '''
+    length = len(clear_text)
+    sum_ = 0.0
+
+    for i in range(0, length-2):
+        try:
+            diagraph = clear_text[i] + clear_text[i+1]
+            sum_ += math.log(diagraph_frequencies[diagraph])
+        except KeyError:
+            pass # we have no data on this 
 
     return sum_ / math.log(2) / len(clear_text)
 
