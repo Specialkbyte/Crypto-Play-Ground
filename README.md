@@ -11,6 +11,7 @@ The simple Plaintext Recogniser used unigram and digrams frequency analysis for 
 I ran the program over the 220,000 standard unix text dictionary and big.txt, which is all the Sherlock Homes novels in one file.
 
 For the 220,000 word dictionary:
+
 | String Length | Accuracy |
 | ------------- | -------: |
 | 2 | 3.85% |
@@ -35,6 +36,7 @@ For the 220,000 word dictionary:
 | 20+ | >98.00% |
 
 For big.txt, all the Sherlock Homes novels. This is long form English sentences.
+
 | String Length | Accuracy |
 | ------------- | -------: |
 | 5-9 | 28.00% | 
