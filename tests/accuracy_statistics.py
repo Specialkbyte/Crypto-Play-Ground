@@ -36,17 +36,38 @@ class AccuracyStatistics(object):
         num_sucs = len(successes)
         num_fails = len(failures)
         num_total = num_sucs + num_fails
-        success_rate = num_sucs/float(num_total)*100
-        print "Success Rate: %.2f%%" % success_rate
+        total_success_rate = num_sucs/float(num_total)*100
+        print "General Success Rate: %.2f%%" % total_success_rate
 
         # per success rate for each word length
         print "Success rate per string length"
         success_freq = self._frequency_string_length(successes)
         failure_freq = self._frequency_string_length(failures)
 
-        for i in range(2, 50): 
-            success_rate = (success_freq[i] / (float(success_freq[i]+failure_freq[i]) or 1.0)) * 100
-            print "%d: %.2f%% (%d/%d)" % (i, success_rate, success_freq[i], success_freq[i]+failure_freq[i])
+        success_rates = []
+        i = 0
+        while i < len(success_freq):
+            success_rate = success_freq[i]/(float(success_freq[i]+failure_freq[i]) or 1.0)
+            success_rates.append(success_rate)
+            i += 1
+
+        for i in range(2, 250): 
+            success_rate = success_rates[i]
+            print "%d: %.2f%% (%d/%d)" % (i, success_rate*100, success_freq[i], success_freq[i]+failure_freq[i])
+
+        # bullshit bdata bucketing
+        aggregate_success = []
+        bin_size = 5
+        for i in range(0, 250, bin_size):
+            sum_ = 0
+            dp_count = 0 # number of non-zero data points for this bucket
+            for j in range(i, i+(bin_size-1)):
+                if success_rates[i] > 0.0:
+                    sum_ += success_rates[i]
+                    dp_count += 1
+            avg = sum_ / (dp_count or 1.0)
+            aggregate_success.append((i, avg))
+            print (i, avg)
 
     def _frequency_string_length(self, strings):
         '''Gives the an aggregate list of how many strings

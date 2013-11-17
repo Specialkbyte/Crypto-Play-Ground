@@ -1,13 +1,16 @@
 Caesar Cipher Cracker in Python
 ===============================
 
-Project made for fun to test out how easy is it really to do letter frequency analysis to break simple substitution ciphers like the Caesar Cipher, where the encryption is done by shifting every character left or right X places in the alphabet. My implemention of the Caesar Cipher removes all whitespace and puncuation.
+Project made for fun. I always wanted to learn how hard is it to actually do letter frequency analysis to break a simple mono-alphabetic substitution cipher like the Caesar Cipher.
+
+I ended up brute forcing my way to the solution and then used a simple Plaintext Recogniser to find the correct decryption given different shift values.
+
+The simple Plaintext Recogniser used unigram and digrams frequency analysis for the English langauge to choose the right plaintext
 
 ## Performance
-Using the simple single word dictionary containing over 220,000 words the program currently cracks correctly the first time depending on how much cipher text there is to work with. Across the current test sample it correctly cracks 67% of test cases.
+I ran the program over the 220,000 standard unix text dictionary and big.txt, which is all the Sherlock Homes novels in one file.
 
-The longer the cleartext the better it works:
-
+For the 220,000 word dictionary:
 | String Length | Accuracy |
 | ------------- | -------: |
 | 2 | 3.85% |
@@ -29,13 +32,22 @@ The longer the cleartext the better it works:
 | 18 | 95.75% |
 | 19 | 97.03% |
 | 20 | 97.66% |
-| 21 | 98.99% |
-| 22 | 92.68% |
-| 23 | 97.56% |
+| 20+ | >98.00% |
+
+For big.txt, all the Sherlock Homes novels. This is long form English sentences.
+| String Length | Accuracy |
+| ------------- | -------: |
+| 5-9 | 28.00% | 
+| 10-14 | 58.66% |
+| 15-19 | 60.29% |
+| 20-24 | 71.74% |
+| 25-29 | 91.04% |
+| 30-34 | 94.73% |
+| 35-39 | 97.56% |
+| 40-44 | 98.70% |
+| 45-50 | 100% |
 
 ## Hopes
-I hope to improve the cracker's ability to pick the correct decryption by using diagrams and trigrams instead of just unigrams.
-
 I hope to extend this project to also crack the "indecipherable cipher", the Vigenere Cipher.
 
 ## Developmennt & Testing
