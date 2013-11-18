@@ -1,6 +1,7 @@
 import cPickle
 from collections import defaultdict
-from project import crack_caesar_cipher, caesar_cipher_encrypt
+from project.caesar_cipher import encrypt as caesar_cipher_encrypt
+from project.crack_caesar_cipher import crack_caesar_cipher
 
 class AccuracyStatistics(object):
 
@@ -16,7 +17,7 @@ class AccuracyStatistics(object):
 
         # encrypt every word with the caesar cipher and attempt to crack it
         for word in self._words:
-            shift, _, decryption = crack_caesar_cipher(caesar_cipher_encrypt(word, 5))
+            shift, decryption = crack_caesar_cipher(caesar_cipher_encrypt(word, 5))
             if shift is 5:
                 successes.append(word)
             else:

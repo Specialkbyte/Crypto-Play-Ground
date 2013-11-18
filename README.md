@@ -1,5 +1,7 @@
-Caesar Cipher Cracker in Python
-===============================
+Crypto Play Ground written in Python
+====================================
+
+# Caesar Cipher Cracking and Plaintext Recogniser
 
 Project made for fun. I always wanted to learn how hard is it to actually do letter frequency analysis to break a simple mono-alphabetic substitution cipher like the Caesar Cipher.
 
@@ -49,8 +51,13 @@ For big.txt, all the Sherlock Homes novels. This is long form English sentences.
 | 40-44 | 98.70% |
 | 45-50 | 100% |
 
-## Hopes
+Essentially the more text the Plaintext Recogniser has to work with the more accurate the Plaintext Recogniser is at detecting which one is the correct plaintext. This is not surprising as with shorter strings the letter distribution is more likely to be further from the standard distribution of letters in Englsih.
+
+## Hopes for the Future
 I hope to extend this project to also crack the "indecipherable cipher", the Vigenere Cipher.
+
+## Why is this written in Python?
+Yes python is not the fastest language but as this is just a fun project for me to learn more about crypto I didn't see the harm in building in a language I'm fast at developing in.
 
 ## Developmennt & Testing
 To install the development dependencies run:
@@ -63,3 +70,10 @@ I've used the Python Nose testing framework for the tests. There are some tests 
 nosetests
 ```
 in the root directory of the repository.
+
+If you want to run the rather illegible accuracy tests, run this command from the home directory to run it on the big.txt test file.
+```bash
+python accuracy.py big.txt
+python accuracy.py
+```
+(P.S. This is the worst interface ever, right?)

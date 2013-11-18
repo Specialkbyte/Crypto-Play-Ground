@@ -1,13 +1,16 @@
 from unittest import TestCase
 
-from project import rot13
-from project import caesar_cipher_encrypt
-from project import caesar_cipher_decrypt
-from project import crack_caesar_cipher
-from project.main import measure_relative_unigram_entropy
-from project.main import _get_frequency_data
+from project.caesar_cipher import rot13
+from project.caesar_cipher import encrypt as caesar_cipher_encrypt
+from project.caesar_cipher import decrypt as caesar_cipher_decrypt
+from project.crack_caesar_cipher import crack_caesar_cipher
+from project.plaintext_recogniser import PlaintextRecogniser
 
-class CaesarCipherEncrpytTest(TestCase):
+class CaesarCipherTests(TestCase):
+	'''Tests the Caesar Cipher (& ROT13) encryption and decryption
+	as some properties of those functions like that ROT13 is
+	commutitive.
+	'''
 
 	def test_rot13(self):
 		clear_text = "The brown fox jumped over the cow in the dark field."
@@ -16,6 +19,7 @@ class CaesarCipherEncrpytTest(TestCase):
 	def test_rot13_communtivity(self):
 		'''Tests that that this ROT13 implemention is commutitive'''
 		clear_text = "Hello world! Goodbye world!"
+		# the returned decrypted text will be uppercase and contain no spaces/puncuation
 		self.assertEqual(decrypted_text(clear_text), rot13(rot13(clear_text)))
 
 	def test_encrpyt(self):
@@ -57,35 +61,33 @@ class CaesarCipherEncrpytTest(TestCase):
 		self.assertEqual(caesar_cipher_encrypt(clear_text, -29), "EBIILTLOIA")
 
 
-class MeasureRelativeEntropyTest(TestCase):
+class PlaintextRecogniserTest(TestCase):
 
-	def setUp(self):
-		'''Load in the letter frequency data from the JSON file'''
-		self.frequencies = _get_frequency_data('project/frequencies.json')
+	ptr = PlaintextRecogniser()
 
 	def test_unigram_entropy(self):
-		'''Simple bog standard test'''
+		'''Simple bog standard test of relative entropy measurer'''
 		clear_text = "THIS IS SOME SAMPLE TEXT HERE."
-		result = measure_relative_unigram_entropy(clear_text, self.frequencies['letters'])
+		result = self.ptr._measure_relative_unigram_entropy(clear_text, self.ptr.frequencies['letters'])
 		self.assertAlmostEqual(result, 2.0202, places=4)
 
 	def test_unigram_entropy_empty_string(self):
-		'''Simple bog standard test'''
+		'''Tests that if we give it an empty string it doesn't die '''
 		clear_text = ""
-		result = measure_relative_unigram_entropy(clear_text, self.frequencies['letters'])
+		result = self.ptr._measure_relative_unigram_entropy(clear_text, self.ptr.frequencies['letters'])
 		self.assertEqual(result, 0.0)
 
 class CrackingCaesarCipherTest(TestCase):
 
 	def test_crack_rot13(self):
 		clear_text = "This is some sample text here."
-		shift, _, decryption = crack_caesar_cipher(rot13(clear_text))
+		shift, decryption = crack_caesar_cipher(rot13(clear_text))
 		self.assertEqual(shift, 13)
 		self.assertEqual(decryption, "THISISSOMESAMPLETEXTHERE")
 
 	def test_crack_caesar_cipher(self):
 		clear_text = "Mr. Obama, seeking to address an outcry."
-		shift, _, decryption = crack_caesar_cipher(caesar_cipher_encrypt(clear_text, 16))
+		shift, decryption = crack_caesar_cipher(caesar_cipher_encrypt(clear_text, 16))
 		self.assertEqual(shift, 16)
 		self.assertEqual(decryption, decrypted_text(clear_text))
 
@@ -93,7 +95,7 @@ class CrackingCaesarCipherTest(TestCase):
 		clear_text = "Mr. Obama, seeking to address an outcry that has shaken public confidence in \
 		the new health law, told reporters at the White House that the changes should allow most people\
 		to retain."
-		shift, _, decryption = crack_caesar_cipher(caesar_cipher_encrypt(clear_text, 5))
+		shift, decryption = crack_caesar_cipher(caesar_cipher_encrypt(clear_text, 5))
 		self.assertEqual(shift, 5)
 		self.assertEqual(decryption, decrypted_text(clear_text))
 
