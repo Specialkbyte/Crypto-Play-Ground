@@ -10,7 +10,7 @@ I ended up brute forcing my way to the solution and then used a simple Plaintext
 The simple Plaintext Recogniser used unigram and digrams frequency analysis for the English langauge to choose the right plaintext
 
 ### Performance
-I ran the program over the 220,000 standard unix text dictionary and big.txt, which is all the Sherlock Homes novels in one file.
+I ran the program over the 220,000 word standard unix text dictionary and big.txt, which is all the Sherlock Homes novels in one file.
 
 For the 220,000 word dictionary:
 
