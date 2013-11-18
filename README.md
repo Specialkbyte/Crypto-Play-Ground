@@ -3,7 +3,7 @@ Crypto Play Ground written in Python
 
 ## Caesar Cipher Cracking and Plaintext Recogniser
 
-Project made for fun. I always wanted to learn how hard is it to actually do letter frequency analysis to break a simple mono-alphabetic substitution cipher like the Caesar Cipher.
+This is a little side project made for fun. I always wanted to learn how hard is it to actually do letter frequency analysis to break a simple mono-alphabetic substitution cipher like the Caesar Cipher.
 
 I ended up brute forcing my way to the solution and then used a simple Plaintext Recogniser to find the correct decryption given different shift values.
 
