@@ -1,7 +1,7 @@
 Crypto Play Ground written in Python
 ====================================
 
-# Caesar Cipher Cracking and Plaintext Recogniser
+## Caesar Cipher Cracking and Plaintext Recogniser
 
 Project made for fun. I always wanted to learn how hard is it to actually do letter frequency analysis to break a simple mono-alphabetic substitution cipher like the Caesar Cipher.
 
@@ -9,7 +9,7 @@ I ended up brute forcing my way to the solution and then used a simple Plaintext
 
 The simple Plaintext Recogniser used unigram and digrams frequency analysis for the English langauge to choose the right plaintext
 
-## Performance
+### Performance
 I ran the program over the 220,000 standard unix text dictionary and big.txt, which is all the Sherlock Homes novels in one file.
 
 For the 220,000 word dictionary:
@@ -53,10 +53,12 @@ For big.txt, all the Sherlock Homes novels. This is long form English sentences.
 
 Essentially the more text the Plaintext Recogniser has to work with the more accurate the Plaintext Recogniser is at detecting which one is the correct plaintext. This is not surprising as with shorter strings the letter distribution is more likely to be further from the standard distribution of letters in Englsih.
 
-## Hopes for the Future
+### Hopes for the Future
 I hope to extend this project to also crack the "indecipherable cipher", the Vigenere Cipher.
 
-## Why is this written in Python?
+### Questions?
+
+#### Why is this written in Python?
 Yes python is not the fastest language but as this is just a fun project for me to learn more about crypto I didn't see the harm in building in a language I'm fast at developing in.
 
 ## Developmennt & Testing
@@ -71,7 +73,7 @@ nosetests
 ```
 in the root directory of the repository.
 
-If you want to run the rather illegible accuracy tests, run this command from the home directory to run it on the big.txt test file.
+If you want to run the rather illegible and porrly written accuracy tests, run this command from the home directory to run it on the big.txt test file.
 ```bash
 python accuracy.py big.txt
 python accuracy.py
